@@ -21,6 +21,15 @@ class BotManController extends Controller
             $bot->reply($result); 
          });
 
+         $botman->hears('info {province}', function ($bot, $province) {
+            $bot->reply("Info Covid-19 Provinsi : ".$province);
+            $result = $this->getProvinceInfo($province);
+            $bot->reply($result);
+        });
+
+         $botman->fallback(function ($bot) {
+            $bot->reply("Maaf Perintah tidak dikenali. Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ");
+        });
         $botman->listen();
     }
 
@@ -41,6 +50,7 @@ class BotManController extends Controller
         $bot->startConversation(new ExampleConversation());
     }
 
+
     protected function getSummaryCovidInfo()
     {
         $API = 'https://indonesia-covid-19.mathdro.id/api';
@@ -55,10 +65,29 @@ class BotManController extends Controller
 
         $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia " . PHP_EOL . 
                 "Jumlah Kasus : ".$totalCases . PHP_EOL . 
-                "Penderita Covid-19 Meninggal : ". $death . PHP_EOL . 
-                "Penderita Covid-19 Sembuh : " . $recovered . PHP_EOL . 
-                "Penderita Dalam Perawatan : " . $hospitalized . PHP_EOL;
+                "Penderita Covid-19 Meninggal : ". $death . "." . PHP_EOL . 
+                "Penderita Covid-19 Sembuh : " . $recovered. "." . PHP_EOL . 
+                "Penderita Dalam Perawatan : " . $hospitalized. "." . PHP_EOL;
         
+        return $data;
+    }
+
+    protected function getProvinceInfo($province)
+    {
+        $API = 'https://indonesia-covid-19.mathdro.id/api/provinsi';
+        $client = new Client();
+        $response = $client->get($API)->getBody();
+        $responseData = json_decode($response);
+        $provicesData = $responseData->{'data'};
+        $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
+        foreach ($provicesData as $key => $provinceData) { 
+            if ($provinceData->provinsi == $province) {
+                $data = "Berikut adalah rangkuman informasi Covid-19 di Provinsi " . $province . " : " . PHP_EOL . 
+                "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusTerkonfirmasiAkumulatif. "." . PHP_EOL . 
+                "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeninggalAkumulatif. "." . PHP_EOL . 
+                "Penderita Covid-19 Sembuh : " . $provinceData->kasusSembuhAkumulatif. "." . PHP_EOL;
+            }
+        }
         return $data;
     }
 }
