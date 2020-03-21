@@ -21,4 +21,6 @@ $botman->hears('Halo', function ($bot) {
 $botman->hears('start', function ($bot) {
     $bot->startConversation(new CovidConversation());
 });
-
+$botman->hears('/start', function ($bot) {
+    $bot->startConversation(new CovidConversation());
+});
