@@ -24,7 +24,10 @@ class BotManController extends Controller
          $botman->hears('info {province}', function ($bot, $province) {
             $bot->reply("Info Covid-19 Provinsi : ".$province);
             $result = $this->getProvinceInfo($province);
-            $bot->reply($result);
+            foreach ($result as $key => $replyText) {
+                $bot->reply($replyText);
+            }
+            // $bot->reply($result);
         });
 
          $botman->fallback(function ($bot) {
@@ -79,13 +82,15 @@ class BotManController extends Controller
         $response = $client->get($API)->getBody();
         $responseData = json_decode($response);
         $provicesData = $responseData->{'data'};
-        $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
+        // $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
+        $data = [];
         foreach ($provicesData as $key => $provinceData) { 
-            if ($provinceData->provinsi == $province) {
-                $data = "Berikut adalah rangkuman informasi Covid-19 di Provinsi " . $province . " : " . PHP_EOL . 
-                "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusTerkonfirmasiAkumulatif. "." . PHP_EOL . 
-                "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeninggalAkumulatif. "." . PHP_EOL . 
-                "Penderita Covid-19 Sembuh : " . $provinceData->kasusSembuhAkumulatif. "." . PHP_EOL;
+            if (strpos(strtolower($provinceData->provinsi), strtolower($province)) !== false) {
+                $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi " . $provinceData->provinsi . " : " . PHP_EOL . 
+                "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
+                "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
+            "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL;
+                array_push($data, $replyText);
             }
         }
         return $data;
