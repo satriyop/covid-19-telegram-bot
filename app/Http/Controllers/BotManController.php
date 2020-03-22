@@ -81,10 +81,10 @@ class BotManController extends Controller
         $client = new Client();
         $response = $client->get($API)->getBody();
         $responseData = json_decode($response);
-        $provicesData = $responseData->{'data'};
+        $provincesData = $responseData->{'data'};
         // $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
         $data = [];
-        foreach ($provicesData as $key => $provinceData) { 
+        foreach ($provincesData as $key => $provinceData) { 
             if (strpos(strtolower($provinceData->provinsi), strtolower($province)) !== false) {
                 $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi " . $provinceData->provinsi . " : " . PHP_EOL . 
                 "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 

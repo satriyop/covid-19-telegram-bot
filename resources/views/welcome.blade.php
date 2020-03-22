@@ -58,10 +58,8 @@
         </div>
 
         <div class="links">
-            <a href="/botman/tinker">Chat</a>
-            <a href="/covid/refresh" target="_blank">Refresh</a>
-            <a href="/covid/indonesia" target="_blank">Summary</a>
-            <a href="/covid/provinces" target="_blank">Province</a>
+            <a href="/botman/tinker">Chat Bot</a>
+            <a href="/reports/national/refresh" target="_blank">Refresh Data National</a>
             <a href="https://github.com/satriyop/covid-19-telegram-bot/" target="_blank">GitHub</a>
         </div>
     </div>
