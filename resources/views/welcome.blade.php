@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>BotMan Studio</title>
+    <title>Indonesia Covid Dashboard</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css">
@@ -58,11 +58,11 @@
         </div>
 
         <div class="links">
-            <a href="/botman/tinker">Tinker</a>
-            <a href="https://botman.io/docs" target="_blank">Documentation</a>
-            <a href="https://twitter.com/botman_io" target="_blank">News</a>
-            <a href="https://rauchg-slackin-jtdkltstsj.now.sh/" target="_blank">Slack</a>
-            <a href="https://github.com/botman/botman" target="_blank">GitHub</a>
+            <a href="/botman/tinker">Chat</a>
+            <a href="/covid/refresh" target="_blank">Refresh</a>
+            <a href="/covid/indonesia" target="_blank">Summary</a>
+            <a href="/covid/provinces" target="_blank">Province</a>
+            <a href="https://github.com/satriyop/covid-19-telegram-bot/" target="_blank">GitHub</a>
         </div>
     </div>
 </div>
