@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $provincesData = \App\NationalReport::latest()->first()->provinces;
+    return view('welcome', compact('provincesData'));
 });
 
 Route::get('reports/national/refresh', 'NationalReportController@refresh');

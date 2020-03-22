@@ -16,6 +16,7 @@ class CreateProvinceReportsTable extends Migration
         Schema::create('province_reports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('code');
             $table->unsignedInteger('national_report_id');
             $table->unsignedInteger('total_cases');
             $table->unsignedInteger('total_death');
