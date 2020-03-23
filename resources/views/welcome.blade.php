@@ -65,8 +65,13 @@
           resolution:'provinces',
           colorAxis: {
             minValue: 0,
-            maxValue: 1000
-          }
+            maxValue: 100,
+            colors: ['#f8bbd0', 'orange', '#e31b23']
+          },
+
+          // backgroundColor: '#81d4fa',
+          // datalessRegionColor: '#f8bbd0',
+          defaultColor: '#f5f5f5',
         };
 
         var chart = new google.visualization.GeoChart(document.getElementById('graph'));
