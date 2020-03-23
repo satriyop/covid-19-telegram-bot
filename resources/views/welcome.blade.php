@@ -65,7 +65,7 @@
           resolution:'provinces',
           colorAxis: {
             minValue: 0,
-            maxValue: 100,
+            maxValue: provinces[0].total_cases,
             colors: ['#f8bbd0', 'orange', '#e31b23']
           },
 
@@ -117,7 +117,6 @@
         }
 
         @media all and (max-width: 500px) {
-
             .links {
                 display: flex;
                 flex-direction: column;
@@ -128,7 +127,6 @@
 <body>
 <div class="container">
     <div class="content">
-        {{-- <div>{{ $data }} </div> --}}
         <div id="graph" style="width: 900px; height: 500px;"></div>
 
         <div class="links">
