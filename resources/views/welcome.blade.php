@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -66,7 +68,7 @@
           colorAxis: {
             minValue: 0,
             maxValue: provinces[0].total_cases,
-            colors: ['#f8bbd0', 'orange', '#e31b23']
+            colors: ['#f8bbd0', 'green', 'black']
           },
 
           // backgroundColor: '#81d4fa',
@@ -93,11 +95,12 @@
             background: radial-gradient(#57bfc7, #45a6b3);
         }
 
-        .container {
+        .container-graph {
             display: flex;
-            height: 100vh;
+            /* height: 100vh; */
             align-items: center;
             justify-content: center;
+            margin-top: 10px;
         }
 
         .content {
@@ -110,7 +113,7 @@
         }
 
         .links a {
-            font-size: 1.25rem;
+            /* font-size: 1.25rem; */
             text-decoration: none;
             color: white;
             margin: 10px;
@@ -125,14 +128,42 @@
     </style>
 </head>
 <body>
-<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Info Covid</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/botman/tinker">Chatbot</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://t.me/indocovidBot">TelegramBot <i class="fa fa-telegram" aria-hidden="true"></i></a>
+          
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/reports/national/refresh">Refresh ({{ $nationalData->id }})</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/satriyop/covid-19-telegram-bot/"">Source Code</a>
+        </li>        
+      </ul>
+    </div>
+  </nav>
+
+<div class="container-graph">
     <div class="content">
         <div id="graph" style="width: 900px; height: 500px;"></div>
-
         <div class="links">
-            <a href="/botman/tinker">Chat Bot</a>
+          <h5>Data per {{ $nationalData->created_at }}</h5>
+            {{-- <a href="/botman/tinker">Chat Bot</a>
             <a href="/reports/national/refresh" >Refresh Data</a>
-            <a href="https://github.com/satriyop/covid-19-telegram-bot/" target="_blank">Source Code</a>
+            <a href="https://github.com/satriyop/covid-19-telegram-bot/" target="_blank">Source Code</a> --}}
         </div>
     </div>
 </div>

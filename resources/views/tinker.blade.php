@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Covid Indonesia Telegram Bot</title>
-
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
 
@@ -19,21 +19,21 @@
             background: radial-gradient(#57bfc7, #45a6b3);
         }
 
-        .container {
+        .container-chat {
             display: flex;
             height: 100vh;
             align-items: center;
             justify-content: center;
         }
 
-        .content {
+        .content-chat {
             text-align: center;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="content" id="app">
+<div class="container-chat">
+    <div class="content-chat" id="app">
         <botman-tinker api-endpoint="/botman"></botman-tinker>
     </div>
 </div>
