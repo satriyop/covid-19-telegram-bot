@@ -36,7 +36,7 @@ class BotManController extends Controller
         
             // $info = $user->getInfo();
         
-            $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+            $greeting = "Hi  $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
             $bot->reply($greeting);
             $bot->reply($result); 
          });
@@ -58,7 +58,7 @@ class BotManController extends Controller
         
             // $info = $user->getInfo();
         
-            $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+            $greeting = "Hi  $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
             $bot->reply($greeting);
 
             $bot->reply("Info Covid-19 Provinsi : ".$province);
