@@ -3,17 +3,51 @@
 use App\Conversations\CovidConversation;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CovidInfoController;
-
+use App\TelegramUser;
 
 $botman = resolve('botman');
 
 
+
 $botman->hears('Hi', function ($bot) {
-    $greeting = "Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+    $user = $bot->getUser();
+    // Access first name
+    $id = $user->getId();
+    $firstname = $user->getFirstName();
+    $lastname = $user->getLastName();
+    $username = $user->getUsername();
+
+    $telegramUser = new TelegramUser;
+    $telegramUser->telegram_id = $id;
+    $telegramUser->username = $username;
+    $telegramUser->firstname = $firstname;
+    $telegramUser->lastname = $lastname;
+    $telegramUser->save();
+
+    $info = $user->getInfo();
+
+    $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
     $bot->reply($greeting);
 });
 $botman->hears('Halo', function ($bot) {
-    $greeting = "Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+    $user = $bot->getUser();
+    // Access first name
+    $id = $user->getId();
+    $firstname = $user->getFirstName();
+    $lastname = $user->getLastName();
+    $username = $user->getUsername();
+
+    $telegramUser = new TelegramUser;
+    $telegramUser->telegram_id = $id;
+    $telegramUser->username = $username;
+    $telegramUser->firstname = $firstname;
+    $telegramUser->lastname = $lastname;
+    $telegramUser->save();
+
+    $info = $user->getInfo();
+
+    $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+    
     $bot->reply($greeting);
 });
 

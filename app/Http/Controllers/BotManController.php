@@ -6,6 +6,8 @@ use BotMan\BotMan\BotMan;
 use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
 use GuzzleHttp\Client;
+use App\TelegramUser;
+
 class BotManController extends Controller
 {
     /**
@@ -14,20 +16,56 @@ class BotManController extends Controller
     public function handle()
     {
         $botman = app('botman');
-        // TEST
 
         $botman->hears('info', function($bot) {
+            // get result from DB
             $result = $this->getSummaryCovidInfo();
+            // get user detail
+            $user = $bot->getUser();
+            $id = $user->getId();
+            $firstname = $user->getFirstName();
+            $lastname = $user->getLastName();
+            $username = $user->getUsername();
+            // save user detail to DB
+            $telegramUser = new TelegramUser;
+            $telegramUser->telegram_id = $id;
+            $telegramUser->username = $username;
+            $telegramUser->firstname = $firstname;
+            $telegramUser->lastname = $lastname;
+            $telegramUser->save();
+        
+            // $info = $user->getInfo();
+        
+            $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+            $bot->reply($greeting);
             $bot->reply($result); 
          });
 
          $botman->hears('info {province}', function ($bot, $province) {
+             // get user detail
+            $user = $bot->getUser();
+            $id = $user->getId();
+            $firstname = $user->getFirstName();
+            $lastname = $user->getLastName();
+            $username = $user->getUsername();
+            // save user detail to DB
+            $telegramUser = new TelegramUser;
+            $telegramUser->telegram_id = $id;
+            $telegramUser->username = $username;
+            $telegramUser->firstname = $firstname;
+            $telegramUser->lastname = $lastname;
+            $telegramUser->save();
+        
+            // $info = $user->getInfo();
+        
+            $greeting = "Hi . $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+            $bot->reply($greeting);
+
             $bot->reply("Info Covid-19 Provinsi : ".$province);
             $result = $this->getProvinceInfo($province);
             foreach ($result as $key => $replyText) {
                 $bot->reply($replyText);
             }
-            // $bot->reply($result);
         });
 
          $botman->fallback(function ($bot) {
