@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
 use GuzzleHttp\Client;
 use App\TelegramUser;
+use App\NationalReport;
 
 class BotManController extends Controller
 {
@@ -16,7 +17,6 @@ class BotManController extends Controller
     public function handle()
     {
         $botman = app('botman');
-
         $botman->hears('info', function($bot) {
             // get result from DB
             $result = $this->getSummaryCovidInfo();
@@ -52,7 +52,9 @@ class BotManController extends Controller
             $telegramUser->lastname = $lastname;
             $telegramUser->save();
 
-            $bot->reply("Info Covid-19 Provinsi : ".$province);
+            $nationalReport = new NationalReport;
+            
+            $bot->reply("Info Covid-19 Provinsi $province periode : " . $nationalReport->latest()->first()->created_at);
             $result = $this->getProvinceInfo($province);
             foreach ($result as $key => $replyText) {
                 $bot->reply($replyText);
@@ -95,11 +97,15 @@ class BotManController extends Controller
         $totalCases = $responseData->jumlahKasus;
         $hospitalized = $responseData->perawatan;
 
-        $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia " . PHP_EOL . 
+        $nationalReport = new NationalReport;
+
+        $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia periode " . $nationalReport->latest()->first()->created_at . ". " . PHP_EOL . 
                 "Jumlah Kasus : ".$totalCases . PHP_EOL . 
                 "Penderita Covid-19 Meninggal : ". $death . "." . PHP_EOL . 
                 "Penderita Covid-19 Sembuh : " . $recovered. "." . PHP_EOL . 
-                "Penderita Dalam Perawatan : " . $hospitalized. "." . PHP_EOL;
+                "Penderita Dalam Perawatan : " . $hospitalized. "." . PHP_EOL .
+                "\n" .
+                "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
         
         return $data;
     }
@@ -113,12 +119,16 @@ class BotManController extends Controller
         $provincesData = $responseData->{'data'};
         // $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
         $data = [];
+
+
         foreach ($provincesData as $key => $provinceData) { 
             if (strpos(strtolower($provinceData->provinsi), strtolower($province)) !== false) {
-                $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi " . $provinceData->provinsi . " : " . PHP_EOL . 
+                $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->provinsi  : " . PHP_EOL . 
                 "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
                 "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
-            "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL;
+                "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL .
+                "\n" .
+                "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
                 array_push($data, $replyText);
             }
         }

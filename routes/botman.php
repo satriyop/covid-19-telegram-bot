@@ -6,8 +6,6 @@ use App\TelegramUser;
 
 $botman = resolve('botman');
 
-
-
 $botman->hears('Hi', function ($bot) {
     $user = $bot->getUser();
     // Access first name
