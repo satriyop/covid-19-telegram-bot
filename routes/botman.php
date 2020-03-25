@@ -2,7 +2,6 @@
 
 use App\Conversations\CovidConversation;
 use App\Http\Controllers\BotManController;
-use App\Http\Controllers\CovidInfoController;
 use App\TelegramUser;
 
 $botman = resolve('botman');
@@ -18,7 +17,7 @@ $botman->hears('Hi', function ($bot) {
     $username = $user->getUsername();
 
     $telegramUser = new TelegramUser;
-    $telegramUser->telegram_id = $id;
+    $telegramUser->telegram_id = strval($id);
     $telegramUser->username = $username;
     $telegramUser->firstname = $firstname;
     $telegramUser->lastname = $lastname;
@@ -38,7 +37,7 @@ $botman->hears('Halo', function ($bot) {
     $username = $user->getUsername();
 
     $telegramUser = new TelegramUser;
-    $telegramUser->telegram_id = $id;
+    $telegramUser->telegram_id = strval($id);
     $telegramUser->username = $username;
     $telegramUser->firstname = $firstname;
     $telegramUser->lastname = $lastname;

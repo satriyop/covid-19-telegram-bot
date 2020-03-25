@@ -28,16 +28,12 @@ class BotManController extends Controller
             $username = $user->getUsername();
             // save user detail to DB
             $telegramUser = new TelegramUser;
-            $telegramUser->telegram_id = $id;
+            $telegramUser->telegram_id = strval($id);
             $telegramUser->username = $username;
             $telegramUser->firstname = $firstname;
             $telegramUser->lastname = $lastname;
             $telegramUser->save();
-        
-            // $info = $user->getInfo();
-        
-            $greeting = "Hi  $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
-            $bot->reply($greeting);
+
             $bot->reply($result); 
          });
 
@@ -50,16 +46,11 @@ class BotManController extends Controller
             $username = $user->getUsername();
             // save user detail to DB
             $telegramUser = new TelegramUser;
-            $telegramUser->telegram_id = $id;
+            $telegramUser->telegram_id = strval($id);
             $telegramUser->username = $username;
             $telegramUser->firstname = $firstname;
             $telegramUser->lastname = $lastname;
             $telegramUser->save();
-        
-            // $info = $user->getInfo();
-        
-            $greeting = "Hi  $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
-            $bot->reply($greeting);
 
             $bot->reply("Info Covid-19 Provinsi : ".$province);
             $result = $this->getProvinceInfo($province);
