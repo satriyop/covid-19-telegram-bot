@@ -104,102 +104,91 @@
         background: radial-gradient(#57bfc7, #45a6b3);
       }
       
-      .container-graph {
-        display: flex;
-        /* height: 100vh; */
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-      }
-      
-      .content {
-        text-align: center;
-      }
-      
+
       .graph {
-        margin-right: 40px;
-        margin-bottom: 40px;
+        width: 950px;
+        height: 500px;
       }
-      
-      .links a {
-        /* font-size: 1.25rem; */
-        text-decoration: none;
-        color: white;
-        margin: 10px;
-      }
-
-
       
       @media all and (max-width: 500px) {
-        .links {
-          display: flex;
-          flex-direction: column;
+        .graph {
+          width: 100%;
+          margin-top: 10px;
+          padding-top: 10px;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      {{-- <a class="navbar-brand" href="#">Info Covid</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+      <a class="navbar-brand" href="/">Info Covid</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button> --}}
-      
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://t.me/indocovidBot">TelegramBot <i class="fa fa-telegram" aria-hidden="true"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://m.me/infocovidindonesia">FacebookBot <i class="fa fa-facebook" aria-hidden="true"></i></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/satriyop/covid-19-telegram-bot/"">Source Code <i class="fa fa-github" aria-hidden="true"></i></a>
-          </li>        
-          <li class="nav-item">
-            <a class="nav-link" href="/reports/national/refresh">Refresh ({{ $nationalData->id }}) - {{ $nationalData->created_at }}</a>
-          </li>
-        </ul>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="http://t.me/indocovidBot">TelegramBot <i class="fa fa-telegram" aria-hidden="true"></i></a>
+          <a class="nav-link" href="https://m.me/infocovidindonesia">FacebookBot <i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a class="nav-link" href="https://github.com/satriyop/covid-19-telegram-bot/">Source Code <i class="fa fa-github" aria-hidden="true"></i></a>
+          <a class="nav-link" href="/reports/national/refresh">Refresh ({{ $nationalData->id }}) - {{ $nationalData->created_at }}</a>
+        </div>
       </div>
     </nav>
     
-    <div class="container-graph">
-      <div class="content">
-        <div id="graph" style="width: 900px; height: 500px;"></div>
-        <div class="links">
-          {{-- <a href="/botman/tinker">Chat Bot</a>
-          <a href="/reports/national/refresh" >Refresh Data</a>
-          <a href="https://github.com/satriyop/covid-19-telegram-bot/" target="_blank">Source Code</a> --}}
+      <div class="row">
+          <div class="col-sm-2">
+
+            <div class="row">
+              <div class="row">
+                <div class="card-group">
+                    <div class="card text-white bg-info mb-3 ml-4" style="width: 11rem;">
+                      <div class="card-header">Total Kasus</div>
+                        <div class="card-body">
+                          <h5 class="card-title">{{ $nationalData->total_cases }}</h5>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="card-group">
+                  <div class="card text-white bg-danger mb-3 ml-4" style="width: 11rem;">
+                      <div class="card-header">Total Meninggal</div>
+                        <div class="card-body">
+                          <h5 class="card-title">{{ $nationalData->total_death }}</h5>
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="card-group">
+                  <div class="card text-white bg-success mb-3 ml-4" style="width: 11rem;">
+                    <div class="card-header">Total Sembuh</div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ $nationalData->total_recovered }}</h5>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+              <div class="row">
+                  <div class="card text-white bg-warning mb-3 ml-4" style="width: 11rem;">
+                    <div class="card-header">Total Dirawat</div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ $nationalData->total_treated }}</h5>
+                    </div>
+                  </div>
+              </div>
+
+          </div>
+          </div>
+        <div class="col-sm-10">
+          <div id="graph"  style="width: 100%; height: 555px;"></div>
         </div>
       </div>
+      </div>
     </div>
-
-    {{-- <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v6.0'
-        });
-      };
-      
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
-      
-      <!-- Your customer chat code -->
-      <div class="fb-customerchat"
-      attribution=setup_tool
-      page_id="110293793941773">
-      </div> --}}
-      
   </body>
 </html>
