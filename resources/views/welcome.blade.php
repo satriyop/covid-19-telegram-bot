@@ -108,86 +108,80 @@
       .graph {
         width: 950px;
         height: 500px;
+        
       }
       
-      @media all and (max-width: 500px) {
-        .graph {
-          width: 100%;
-          margin-top: 10px;
-          padding-top: 10px;
+      @media (min-width: 576px) {
+        .card {
+          margin-bottom: 2px;
         }
       }
+
+
+
+
     </style>
   </head>
   <body>
     <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-      <a class="navbar-brand" href="/">Info Covid</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="http://t.me/indocovidBot">TelegramBot <i class="fa fa-telegram" aria-hidden="true"></i></a>
-          <a class="nav-link" href="https://m.me/infocovidindonesia">FacebookBot <i class="fa fa-facebook" aria-hidden="true"></i></a>
-          <a class="nav-link" href="https://github.com/satriyop/covid-19-telegram-bot/">Source Code <i class="fa fa-github" aria-hidden="true"></i></a>
-          <a class="nav-link" href="/reports/national/refresh">Refresh ({{ $nationalData->id }}) - {{ $nationalData->created_at }}</a>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+        <a class="navbar-brand" href="/">Info Covid</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link" href="http://t.me/indocovidBot">TelegramBot <i class="fa fa-telegram" aria-hidden="true"></i></a>
+            <a class="nav-link" href="https://m.me/infocovidindonesia">FacebookBot <i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="nav-link" href="https://github.com/satriyop/covid-19-telegram-bot/">Source Code <i class="fa fa-github" aria-hidden="true"></i></a>
+            <a class="nav-link" href="/reports/national/refresh">Refresh ({{ $nationalData->id }}) - {{ $nationalData->created_at }}</a>
+          </div>
         </div>
-      </div>
-    </nav>
-    
+      </nav>
+
       <div class="row">
-          <div class="col-sm-2">
-
-            <div class="row">
-              <div class="row">
-                <div class="card-group">
-                    <div class="card text-white bg-info mb-3 ml-4" style="width: 11rem;">
-                      <div class="card-header">Total Kasus</div>
-                        <div class="card-body">
-                          <h5 class="card-title">{{ $nationalData->total_cases }}</h5>
-                      </div>
-                    </div>
+        <div class="container">
+          <div class="d-flex justify-content-center">
+          <div class="card-group">
+              <div class="card text-white bg-info mb-3 " style="max-width: 18rem;">
+                <div class="card-header">Total Kasus</div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ $nationalData->total_cases }}</h5>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="card-group">
-                  <div class="card text-white bg-danger mb-3 ml-4" style="width: 11rem;">
-                      <div class="card-header">Total Meninggal</div>
-                        <div class="card-body">
-                          <h5 class="card-title">{{ $nationalData->total_death }}</h5>
-                      </div>
-                    </div>
+            <div class="card text-white bg-danger  mb-3" style="max-width: 18rem;">
+                <div class="card-header"> Meninggal</div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{ $nationalData->total_death }}</h5>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="card-group">
-                  <div class="card text-white bg-success mb-3 ml-4" style="width: 11rem;">
-                    <div class="card-header">Total Sembuh</div>
-                    <div class="card-body">
-                      <h5 class="card-title">{{ $nationalData->total_recovered }}</h5>
-                    </div>
-                  </div>
-                </div>
-                </div>
-
-              <div class="row">
-                  <div class="card text-white bg-warning mb-3 ml-4" style="width: 11rem;">
-                    <div class="card-header">Total Dirawat</div>
-                    <div class="card-body">
-                      <h5 class="card-title">{{ $nationalData->total_treated }}</h5>
-                    </div>
-                  </div>
+            <div class="card text-white bg-success mb-3 " style="max-width: 18rem;">
+              <div class="card-header">Sembuh</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ $nationalData->total_recovered }}</h5>
               </div>
+            </div>
 
+            <div class="card text-white bg-warning mb-3" style="width: 18rem;">
+              <div class="card-header">Dirawat</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ $nationalData->total_treated }}</h5>
+              </div>
+            </div>
+            <div class="card text-white bg-secondary mb-3" style="width: 18rem;">
+              <div class="card-header">Ratio Meninggal</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ str_limit( strval(($nationalData->total_death / $nationalData->total_cases)* 100) , 4) }} %</h5>
+              </div>
+            </div>
           </div>
           </div>
-        <div class="col-sm-10">
-          <div id="graph"  style="width: 100%; height: 555px;"></div>
+
+          <div id="graph"  style="width: 100%; height: 555px;"></div>          
+      
         </div>
-      </div>
       </div>
     </div>
   </body>
