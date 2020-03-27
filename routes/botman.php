@@ -43,7 +43,7 @@ $botman->hears('Help', function ($bot) {
     $greeting = "Hi $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
     $bot->reply($greeting);
 });
-$botman->hears('Halo', function ($bot) {
+$botman->hears('Hello', function ($bot) {
     $user = $bot->getUser();
     // Access first name
     $id = $user->getId();
