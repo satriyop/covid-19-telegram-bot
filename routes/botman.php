@@ -21,7 +21,24 @@ $botman->hears('Hi', function ($bot) {
     $telegramUser->lastname = $lastname;
     $telegramUser->save();
 
-    $info = $user->getInfo();
+    $greeting = "Hi $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
+    $bot->reply($greeting);
+});
+
+$botman->hears('Help', function ($bot) {
+    $user = $bot->getUser();
+    // Access first name
+    $id = $user->getId();
+    $firstname = $user->getFirstName();
+    $lastname = $user->getLastName();
+    $username = $user->getUsername();
+
+    $telegramUser = new TelegramUser;
+    $telegramUser->telegram_id = strval($id);
+    $telegramUser->username = $username;
+    $telegramUser->firstname = $firstname;
+    $telegramUser->lastname = $lastname;
+    $telegramUser->save();
 
     $greeting = "Hi $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
     $bot->reply($greeting);
@@ -40,8 +57,6 @@ $botman->hears('Halo', function ($bot) {
     $telegramUser->firstname = $firstname;
     $telegramUser->lastname = $lastname;
     $telegramUser->save();
-
-    $info = $user->getInfo();
 
     $greeting = "Hi $firstname  .  Ketik : info (untuk mendapatkan rangkuman informasi covid-19 di Indonesia atau ketik : info nama_provinsi (untuk informasi rangkuman informasi covid-19 di provinsi tersebut.) ";
     
