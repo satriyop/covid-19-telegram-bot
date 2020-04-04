@@ -149,17 +149,19 @@ class BotManController extends Controller
 
         // return $data;
 
-        $provinceData = \App\NationalReport::latest()->first()->provinces;
+        $provincesData = \App\NationalReport::latest()->first()->provinces;
         $data = [];
-        if (strpos(strtolower($provinceData->name), strtolower($province)) !== false) {
-            $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->name  : " . PHP_EOL . 
-            "Jumlah Kasus Terkonfirmasi: $provinceData->total_cases " . PHP_EOL . 
-            "Penderita Covid-19 Meninggal : $provinceData->total_death" . PHP_EOL . 
-            "Penderita Covid-19 Sembuh : $provinceData->total_recovered ". PHP_EOL .
-            "Kunjungi informasi dari provinsi (rumah sakit, call center, dll) : $provinceData->url " . PHP_EOL .
-            "\n" .
-            "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
-            array_push($data, $replyText);
+        foreach ($provincesData as $key => $provinceData) { 
+            if (strpos(strtolower($provinceData->name), strtolower($province)) !== false) {
+                $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->name  : " . PHP_EOL . 
+                "Jumlah Kasus Terkonfirmasi: $provinceData->total_cases " . PHP_EOL . 
+                "Penderita Covid-19 Meninggal : $provinceData->total_death" . PHP_EOL . 
+                "Penderita Covid-19 Sembuh : $provinceData->total_recovered ". PHP_EOL .
+                "Kunjungi informasi dari provinsi (rumah sakit, call center, dll) : $provinceData->url " . PHP_EOL .
+                "\n" .
+                "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
+                array_push($data, $replyText);
+            }
         }
         return $data;
     }
