@@ -34,4 +34,4 @@ return [
     'sulbar' => 'https://www.sulbarprov.go.id/',
     'malut' => 'https://www.sulbarprov.go.id/',
     'pabar' => 'https://papuabaratprov.go.id/'
-];
+]

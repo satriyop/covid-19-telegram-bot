@@ -54,7 +54,7 @@ class BotManController extends Controller
 
             $nationalReport = new NationalReport;
             
-            $bot->reply("Info Covid-19 Provinsi $province periode : " . $nationalReport->latest()->first()->created_at);
+            $bot->reply("Info Covid-19 Provinsi $province  periode : " . $nationalReport->latest()->first()->created_at);
             $result = $this->getProvinceInfo($province);
             foreach ($result as $key => $replyText) {
                 $bot->reply($replyText);
@@ -117,7 +117,6 @@ class BotManController extends Controller
         $response = $client->get($API)->getBody();
         $responseData = json_decode($response);
         $provincesData = $responseData->{'data'};
-        // $data = "Provinsi Tidak Tersedia, Selalu gunakan huruf kapital untuk penulisan contoh :info DKI Jakarta,info Jawa Barat,info Kalimantan Barat,info Banten, dll";
         $data = [];
 
 
@@ -127,12 +126,12 @@ class BotManController extends Controller
                 "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
                 "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
                 "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL .
-                "Info lebih lengkap (daftar rumah sakit, call center, dll) dari provinsi kunjungi : " . $provinceData->url . "." . PHP_EOL .
                 "\n" .
                 "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
                 array_push($data, $replyText);
             }
         }
+
         return $data;
     }
 }
