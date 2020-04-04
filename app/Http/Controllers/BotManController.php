@@ -8,6 +8,7 @@ use App\Conversations\ExampleConversation;
 use GuzzleHttp\Client;
 use App\TelegramUser;
 use App\NationalReport;
+use App\ProvinceReport;
 
 class BotManController extends Controller
 {
@@ -87,51 +88,79 @@ class BotManController extends Controller
 
     protected function getSummaryCovidInfo()
     {
-        $API = 'https://indonesia-covid-19.mathdro.id/api';
-        $client = new Client();
-        $response = $client->get($API)->getBody();
-        $responseData = json_decode($response);
+        // $API = 'https://indonesia-covid-19.mathdro.id/api';
+        // $client = new Client();
+        // $response = $client->get($API)->getBody();
+        // $responseData = json_decode($response);
 
-        $death = $responseData->meninggal;
-        $recovered = $responseData->sembuh;
-        $totalCases = $responseData->jumlahKasus;
-        $hospitalized = $responseData->perawatan;
+        // $death = $responseData->meninggal;
+        // $recovered = $responseData->sembuh;
+        // $totalCases = $responseData->jumlahKasus;
+        // $hospitalized = $responseData->perawatan;
 
-        $nationalReport = new NationalReport;
+        // $nationalReport = new NationalReport;
 
-        $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia periode " . $nationalReport->latest()->first()->created_at . ". " . PHP_EOL . 
-                "Jumlah Kasus : ".$totalCases . PHP_EOL . 
-                "Penderita Covid-19 Meninggal : ". $death . "." . PHP_EOL . 
-                "Penderita Covid-19 Sembuh : " . $recovered. "." . PHP_EOL . 
-                "Penderita Dalam Perawatan : " . $hospitalized. "." . PHP_EOL .
+        // $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia periode " . $nationalReport->latest()->first()->created_at . ". " . PHP_EOL . 
+        //         "Jumlah Kasus : ".$totalCases . PHP_EOL . 
+        //         "Penderita Covid-19 Meninggal : ". $death . "." . PHP_EOL . 
+        //         "Penderita Covid-19 Sembuh : " . $recovered. "." . PHP_EOL . 
+        //         "Penderita Dalam Perawatan : " . $hospitalized. "." . PHP_EOL .
+        //         "\n" .
+        //         "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
+        
+        // return $data;
+
+
+        $nationalData = \App\NationalReport::latest()->first();
+
+        $data = "Berikut adalah rangkuman informasi Covid-19 di Indonesia periode " . $nationalData->latest()->first()->created_at . ". " . PHP_EOL . 
+                "Jumlah Kasus : $nationalData->total_cases ". PHP_EOL . 
+                "Penderita Covid-19 Meninggal : ". $nationalData->total_death . "." . PHP_EOL . 
+                "Penderita Covid-19 Sembuh : " . $nationalData->total_recovered. "." . PHP_EOL . 
+                "Penderita Dalam Perawatan : " . $nationalData->total_treated. "." . PHP_EOL .
                 "\n" .
                 "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
         
         return $data;
+
     }
 
     protected function getProvinceInfo($province)
     {
-        $API = 'https://indonesia-covid-19.mathdro.id/api/provinsi';
-        $client = new Client();
-        $response = $client->get($API)->getBody();
-        $responseData = json_decode($response);
-        $provincesData = $responseData->{'data'};
+        // $API = 'https://indonesia-covid-19.mathdro.id/api/provinsi';
+        // $client = new Client();
+        // $response = $client->get($API)->getBody();
+        // $responseData = json_decode($response);
+        // $provincesData = $responseData->{'data'};
+        // $data = [];
+
+
+        // foreach ($provincesData as $key => $provinceData) { 
+        //     if (strpos(strtolower($provinceData->provinsi), strtolower($province)) !== false) {
+        //         $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->provinsi  : " . PHP_EOL . 
+        //         "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
+        //         "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
+        //         "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL .
+        //         "\n" .
+        //         "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
+        //         array_push($data, $replyText);
+        //     }
+        // }
+
+        // return $data;
+
+        $provinceData = \App\NationalReport::latest()->first()->provinces;
         $data = [];
-
-
-        foreach ($provincesData as $key => $provinceData) { 
-            if (strpos(strtolower($provinceData->provinsi), strtolower($province)) !== false) {
-                $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->provinsi  : " . PHP_EOL . 
-                "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
-                "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
-                "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL .
-                "\n" .
-                "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
-                array_push($data, $replyText);
-            }
+        if (strpos(strtolower($provinceData->name), strtolower($province)) !== false) {
+            $replyText = "Berikut adalah rangkuman informasi Covid-19 di Provinsi $provinceData->name  : " . PHP_EOL . 
+            "Jumlah Kasus Terkonfirmasi: $provinceData->total_cases " . PHP_EOL . 
+            "Penderita Covid-19 Meninggal : $provinceData->total_death" . PHP_EOL . 
+            "Penderita Covid-19 Sembuh : $provinceData->total_recovered ". PHP_EOL .
+            "Kunjungi informasi dari provinsi (rumah sakit, call center, dll) : $provinceData->url " . PHP_EOL .
+            "\n" .
+            "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
+            array_push($data, $replyText);
         }
-
         return $data;
     }
 }
