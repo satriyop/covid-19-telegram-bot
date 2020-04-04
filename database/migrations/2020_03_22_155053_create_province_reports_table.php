@@ -21,6 +21,7 @@ class CreateProvinceReportsTable extends Migration
             $table->unsignedInteger('total_cases');
             $table->unsignedInteger('total_death');
             $table->unsignedInteger('total_recovered');
+            $table->string('url')->nullable();
             $table->timestamps();
             $table->foreign('national_report_id')->references('id')->on('national_reports')->onDelete('cascade');
         });

@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     $nationalData = \App\NationalReport::latest()->first();
     $provincesData = \App\NationalReport::latest()->first()->provinces;

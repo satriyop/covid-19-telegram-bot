@@ -127,6 +127,7 @@ class BotManController extends Controller
                 "Jumlah Kasus Terkonfirmasi: ".$provinceData->kasusPosi. "." . PHP_EOL . 
                 "Penderita Covid-19 Meninggal : ". $provinceData->kasusMeni. "." . PHP_EOL . 
                 "Penderita Covid-19 Sembuh : " . $provinceData->kasusSemb. "." . PHP_EOL .
+                "Info lebih lengkap (daftar rumah sakit, call center, dll) dari provinsi kunjungi : " . $provinceData->url . "." . PHP_EOL .
                 "\n" .
                 "Kunjungi https://covid.bumi.dev/ untuk peta sebaran per provinsi";
                 array_push($data, $replyText);
